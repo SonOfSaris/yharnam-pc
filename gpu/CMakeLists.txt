@@ -298,13 +298,13 @@ if (WIN32)
     target_compile_options(atrac9 PRIVATE -w)
     set_target_properties(atrac9 PROPERTIES C_STANDARD 99 INTERPROCEDURAL_OPTIMIZATION OFF)
     add_executable(bb-probe ../src/probe.c ${BB_RUNTIME} ../src/compat_win.c ../src/vulkan_smoke.c ../src/cloth_rate.c
-        ../src/engine_hooks.c ../src/engine_features.c ../src/pc_menu.c ../src/rebirth.c ../src/ending_trace.c ../src/input_bindings.c ../src/mouse_camera.c ../src/key_prompts.c ../src/menu_pointer.c
+        ../src/engine_hooks.c ../src/engine_features.c ../src/pc_menu.c ../src/rebirth.c ../src/ending_trace.c ../src/input_bindings.c ../src/mouse_camera.c ../src/first_person.c ../third_party/first-person-bloodborne/src/bbfp.c ../src/key_prompts.c ../src/menu_pointer.c
         ../src/occlusion_queries.c ../src/wind_pace.c ../src/blur_kernel.c ../src/render_jobs.c ../src/effect_step_gate.c ../src/effect_smooth_steps.c ../src/light_blink.c ../src/water_gate.c ../src/frame_time.c ../packaging/windows/bb-probe.rc)
     target_sources(bb-probe PRIVATE ../src/aspect_ratio.cpp)
     target_compile_definitions(bb-probe PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
     set_target_properties(bb-probe PROPERTIES C_STANDARD 11 C_EXTENSIONS OFF)
     target_compile_options(bb-probe PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wall -Wextra -Werror>)
-    target_include_directories(bb-probe PRIVATE .. ../src)
+    target_include_directories(bb-probe PRIVATE .. ../src ../third_party/first-person-bloodborne/include)
     target_link_libraries(bb-probe PRIVATE bbgpu atrac9 onecore bcrypt ws2_32 -pthread)
     # The PS4 range (64 GiB - 1 TiB) must stay free: no high-entropy ASLR for heaps and stacks.
     # The guest main thread runs on the process stack: 16 MiB, committed (no stack probes).
@@ -373,6 +373,15 @@ if (WIN32)
         ../src/engine_hooks.c)
     target_include_directories(water-gate-test PRIVATE ../src)
     target_compile_options(water-gate-test PRIVATE -UNDEBUG -Wall -Wextra -Werror)
+    add_executable(first-person-test EXCLUDE_FROM_ALL ../tests/test_first_person.c ../src/engine_hooks.c)
+    target_include_directories(first-person-test PRIVATE .. ../src ../third_party/first-person-bloodborne/include)
+    target_compile_options(first-person-test PRIVATE -UNDEBUG -Wall -Wextra -Werror)
+    target_link_libraries(first-person-test PRIVATE -pthread)
+    # The first-person camera core's own test (third_party/first-person-bloodborne, MIT).
+    add_executable(bbfp-test EXCLUDE_FROM_ALL ../third_party/first-person-bloodborne/tests/test_bbfp.c)
+    target_include_directories(bbfp-test PRIVATE ../third_party/first-person-bloodborne/include)
+    set_target_properties(bbfp-test PROPERTIES C_STANDARD 11)
+    target_compile_options(bbfp-test PRIVATE -UNDEBUG -Wall -Wextra -Werror)
     add_executable(frame-time-test EXCLUDE_FROM_ALL ../tests/test_frame_time.c ../src/frame_time.c ../src/wind_pace.c
         ../src/cloth_rate.c ../src/engine_hooks.c)
     target_include_directories(frame-time-test PRIVATE ../src)

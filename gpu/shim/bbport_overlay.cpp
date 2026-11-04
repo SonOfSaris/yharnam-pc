@@ -548,8 +548,12 @@ void Hint(const char* text) {
 }
 
 bool IsCheat(int e) { return !std::strncmp(BbSettings::Effects[e].key, "cheat_", 6); }
-// The stamina cheats are set each frame (src/runtime_stamina.c), not patched at start.
-bool LiveSetting(int e) { return std::strstr(BbSettings::Effects[e].key, "stamina") != nullptr; }
+// The stamina cheats are set each frame (src/runtime_stamina.c) and first person is read each
+// camera update (src/first_person.c): not patched at start.
+bool LiveSetting(int e) {
+    const char* key = BbSettings::Effects[e].key;
+    return std::strstr(key, "stamina") != nullptr || !std::strcmp(key, "tweak_first_person");
+}
 
 bool RestartNeeded() {
     const auto& s = BbSettings::Get();

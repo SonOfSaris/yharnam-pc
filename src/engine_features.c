@@ -7,6 +7,7 @@
 #include "effect_step_gate.h"
 #include "ending_trace.h"
 #include "engine_hooks.h"
+#include "first_person.h"
 #include "frame_time.h"
 #include "key_prompts.h"
 #include "light_blink.h"
@@ -36,7 +37,7 @@ static int menu_pointer_install(void) {
 }
 
 static const Install installs[] = {bb_cloth_rate_install,
-                                   bb_pc_menu_install, bb_rebirth_install, bb_mouse_camera_install,
+                                   bb_pc_menu_install, bb_rebirth_install, bb_mouse_camera_install, bb_first_person_install,
                                    bb_key_prompts_install, menu_pointer_install,
                                    bb_occlusion_queries_install, bb_wind_pace_install,
                                    bb_blur_kernel_install, bb_render_jobs_install,

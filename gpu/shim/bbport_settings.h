@@ -50,6 +50,7 @@ inline constexpr Effect Effects[] = {
     {"tweak_no_camera_rotation", "Disable automatic camera rotation", false},
     {"tweak_easy_run", "Run with less stick tilt", false},
     {"tweak_ragdoll", "Dark Souls-style ragdoll physics", false},
+    {"tweak_first_person", "First person (hold Lock On for a second to switch)", false},
     // PC enhancements (scripts/enhancements.py, after bbhost): game files made at start. Off
     // keeps the game as it shipped. Kept last: the menu lists them in their own section.
     {"pc_mirror_appearance", "Hunter's Dream mirror: change appearance", false},
@@ -99,6 +100,12 @@ struct Values {
     std::atomic<bool> mouse_camera{true};
     std::atomic<int> mouse_sensitivity{10};
     std::atomic<bool> mouse_invert_y{false};
+    /// The player's camera field of view as a percent of the game's own (src/first_person.c, read
+    /// each camera update), so the game's tighter and wider areas carry through: in first person
+    /// (tweak_first_person; 193, about 83 degrees where the game uses 43) and otherwise (100, the
+    /// game's own). BB_FIRST_PERSON_FOV_SCALE and BB_CAMERA_FOV_SCALE override them.
+    std::atomic<int> first_person_fov_scale{193};
+    std::atomic<int> camera_fov_scale{100};
     /// Locked on, a sideways flick of this many mouse counts (decaying over ~0.1 s) switches
     /// targets; 0 turns flicks off.
     std::atomic<int> mouse_flick_threshold{300};

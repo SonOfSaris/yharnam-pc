@@ -236,6 +236,8 @@ TWEAKS = [
                               'Японская раскладка: Круг — подтверждение и действие, Крест — уклонение'), False),
     ('tweak_ragdoll', ('Dark Souls-style ragdoll physics (corpses fly further)',
                        'Физика тел как в Dark Souls (тела отлетают дальше)'), False),
+    ('tweak_first_person', ('First person: hold Lock On (R3) for a second to switch, in game',
+                            'Вид от первого лица: удерживайте захват цели (R3) секунду, чтобы переключить'), False),
 ]
 # PC enhancements (scripts/enhancements.py, after bbhost): game files made at start; off is the
 # game as it shipped. BB_PC_MIRROR / BB_PC_TWO_INVADERS / BB_PC_REBIRTH / BB_PC_LAMPS /
@@ -272,7 +274,7 @@ INI_DEFAULTS = {'upscaler': 'dlss', 'preset': '2', 'sharpen': '1', 'sharpness': 
                 'object_motion': '1', 'show_fps': '1', 'output_res': '2560x1440', 'hud_position': '100', 'model_lod': '0',
                 'live_resolution': 'auto', 'mouse_camera': '1', 'mouse_sensitivity': '10', 'mouse_menu': '1',
                 'mouse_invert_y': '0', 'mouse_hide_cursor': '0', 'overlay_pad_shortcut': '1', 'pad_back': 'gestures', 'move_smoothing': '60', 'frame_gen': 'off', 'frame_gen_multiplier': '2', 'frame_gen_fit_display': '0',
-                'atlas_npc_mode': 'all',
+                'atlas_npc_mode': 'all', 'first_person_fov_scale': '193', 'camera_fov_scale': '100',
                 **{key: '1' if on else '0' for key, _t, on in EFFECTS + EXTRAS + CHEATS + TWEAKS + ENHANCEMENTS + ATLAS}}
 APP_DEFAULTS = {'ui_language': '', 'game_dir': str(PORT_DIR.parent / 'CUSA03173'), 'user_dir': '', 'dlc_dir': '',
                 'mods_dir': '', 'mods_enabled': True, 'patches_dir': '', 'language': '1',

@@ -104,6 +104,10 @@ void Set(Values& v, const std::string& key, const std::string& value) {
         v.mouse_camera = i != 0;
     } else if (key == "mouse_sensitivity") {
         v.mouse_sensitivity = std::clamp(i, 1, 50);
+    } else if (key == "first_person_fov_scale") {
+        v.first_person_fov_scale = std::clamp(i, 100, 300);
+    } else if (key == "camera_fov_scale") {
+        v.camera_fov_scale = std::clamp(i, 50, 250);
     } else if (key == "mouse_invert_y") {
         v.mouse_invert_y = i != 0;
     } else if (key == "mouse_flick_threshold") {
@@ -189,7 +193,8 @@ void Load() {
         {"BB_UPSCALE_PRESET", "preset"},            {"BB_OBJECT_MOTION", "object_motion"},
         {"BB_PC_MIRROR", "pc_mirror_appearance"},   {"BB_PC_TWO_INVADERS", "pc_two_invaders"},
         {"BB_PC_REBIRTH", "pc_rebirth"},           {"BB_MOUSE_CAMERA", "mouse_camera"},
-        {"BB_PC_LAMPS", "pc_enhanced_lamps"},
+        {"BB_PC_LAMPS", "pc_enhanced_lamps"},     {"BB_FIRST_PERSON", "tweak_first_person"},
+        {"BB_FIRST_PERSON_FOV_SCALE", "first_person_fov_scale"}, {"BB_CAMERA_FOV_SCALE", "camera_fov_scale"},
         {"BB_OUTPUT_RES", "output_res"},
         {"BB_MOUSE_MENU", "mouse_menu"},
         {"BB_FRAME_GEN", "frame_gen"},              {"BB_FRAME_GEN_MULTIPLIER", "frame_gen_multiplier"},
@@ -308,7 +313,8 @@ void Save() {
                                      "model_lod", "output_res", "live_resolution",
                                      "frame_gen", "frame_gen_multiplier", "frame_gen_fit_display",
                                      "mouse_camera", "mouse_sensitivity", "mouse_invert_y", "mouse_menu",
-                                     "mouse_hide_cursor", "mouse_flick_threshold", "overlay_pad_shortcut"}) {
+                                     "mouse_hide_cursor", "mouse_flick_threshold", "overlay_pad_shortcut",
+                                     "first_person_fov_scale", "camera_fov_scale"}) {
                 ours |= key == name;
             }
             for (int e = 0; e < EffectCount; ++e) ours |= key == Effects[e].key;
@@ -342,6 +348,8 @@ void Save() {
                  int(v.mouse_camera.load()), v.mouse_sensitivity.load(), int(v.mouse_invert_y.load()),
                  int(v.mouse_menu.load()), int(v.mouse_hide_cursor.load()), v.mouse_flick_threshold.load());
     std::fprintf(file, "overlay_pad_shortcut=%d\n", int(v.overlay_pad_shortcut.load()));
+    std::fprintf(file, "first_person_fov_scale=%d\ncamera_fov_scale=%d\n", v.first_person_fov_scale.load(),
+                 v.camera_fov_scale.load());
     // Read by patches.py at start.
     for (int e = 0; e < EffectCount; ++e) {
         std::fprintf(file, "%s=%d\n", Effects[e].key, int(v.effects[e].load()));
@@ -390,6 +398,8 @@ bool Read(const Values& v, const std::string& k, int& out) {
     else if (k == "model_lod") out = v.model_lod.load();
     else if (k == "mouse_camera") out = v.mouse_camera.load();
     else if (k == "mouse_sensitivity") out = v.mouse_sensitivity.load();
+    else if (k == "first_person_fov_scale") out = v.first_person_fov_scale.load();
+    else if (k == "camera_fov_scale") out = v.camera_fov_scale.load();
     else if (k == "mouse_invert_y") out = v.mouse_invert_y.load();
     else if (k == "mouse_flick_threshold") out = v.mouse_flick_threshold.load();
     else if (k == "mouse_menu") out = v.mouse_menu.load();

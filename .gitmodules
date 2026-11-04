@@ -16,3 +16,7 @@
 [submodule "gpu/third_party/xbyak"]
 	path = gpu/third_party/xbyak
 	url = https://github.com/herumi/xbyak.git
+[submodule "third_party/first-person-bloodborne"]
+	path = third_party/first-person-bloodborne
+	url = https://github.com/SonOfSaris/first-person-bloodborne.git
+	branch = main

@@ -38,8 +38,15 @@ def choice_rows(options):
 OFF_ONLINE = "Off when playing online with The Hunter's Dream (seamless co-op keeps it)."
 
 
-def row(key, label, kind='text', options=None, hint=''):
-    return {'key': key, 'label': label, 'kind': kind, 'options': choice_rows(options or []), 'hint': hint}
+def row(key, label, kind='text', options=None, hint='', **extra):
+    """A settings row. extra: a slider's min, max, step and unit; enabledBy, a toggle's key that
+    must be on for the row to be changed (it is greyed out otherwise)."""
+    return {'key': key, 'label': label, 'kind': kind, 'options': choice_rows(options or []), 'hint': hint, **extra}
+
+
+# Field of view sliders: percents of the game's own (src/first_person.c clamps to 100-300 and 50-250).
+FIRST_PERSON_FOV_SCALE = (125, 250)
+CAMERA_FOV_SCALE = (75, 200)
 
 
 # What the graphics rows do, and which ones cost GPU time (the presets change those).
@@ -95,6 +102,15 @@ FIELDS = {
             'The monitor the game window and fullscreen go to, in the order the game log lists them.'),
         row('present_mode', 'Presentation mode', 'choice', core.PRESENT_MODES),
         row('hdr', 'HDR output', 'toggle'),
+        row('camera_fov_scale', 'Third person field of view', 'slider',
+            hint="Percent of the game's own (43° in most places, tighter or wider in some). Applies the next "
+                 'time the game starts.',
+            min=CAMERA_FOV_SCALE[0], max=CAMERA_FOV_SCALE[1], step=1, unit='%'),
+        row('first_person_fov_scale', 'First person field of view', 'slider',
+            hint="Percent of the game's own while in first person; 193% is about 83°. Applies the next time "
+                 'the game starts.',
+            min=FIRST_PERSON_FOV_SCALE[0], max=FIRST_PERSON_FOV_SCALE[1], step=1, unit='%',
+            enabledBy='tweak_first_person'),
     ],
     'Game': [
         row('game_dir', 'Game folder (contains eboot.bin)', 'folder'),
@@ -171,7 +187,7 @@ FIELDS = {
 SETTINGS_SECTIONS = {
     'Visuals': [
         ('Display & frame rate', ['output_res', 'hud_position', 'fullscreen', 'fullscreen_mode', 'display', 'hdr', 'fps_mode', 'frame_cap',
-                                  'frames_ahead', 'present_mode']),
+                                  'frames_ahead', 'present_mode', 'camera_fov_scale', 'first_person_fov_scale']),
         ('Upscaling', ['upscaler', 'preset', 'live_resolution', 'sharpen', 'sharpness',
                        'object_motion']),
         ('Frame generation', ['frame_gen', 'frame_gen_multiplier', 'frame_gen_fit_display']),
@@ -218,6 +234,8 @@ SETTINGS_SECTIONS = {
 }
 SETTING_FIELDS = {field['key']: field for fields in FIELDS.values() for field in fields}
 SEARCH_TERMS = {
+    'first_person_fov_scale': 'fov field of view first person camera scale percent',
+    'camera_fov_scale': 'fov field of view third person camera zoom scale percent',
     'output_res': 'screen resolution display', 'fps_mode': 'fps frame rate',
     'frame_cap': 'fps limit unlocked', 'upscaler': 'dlss fsr taa',
     'vram_budget_mb': 'vram video memory texture cache pressure budget',
@@ -743,6 +761,12 @@ class LauncherBackend(QObject):
         if key in core.INI_DEFAULTS:
             if key in core.INI_FLAGS:
                 value = '1' if value in (True, 1, '1', 'true') else '0'
+            elif key in ('first_person_fov_scale', 'camera_fov_scale'):
+                low, high = FIRST_PERSON_FOV_SCALE if key == 'first_person_fov_scale' else CAMERA_FOV_SCALE
+                try:
+                    value = str(max(low, min(high, round(float(value)))))
+                except (ValueError, TypeError):
+                    value = self.ini.get(key, core.INI_DEFAULTS[key])
             elif key == 'sharpness':
                 try:
                     value = f'{max(0.0, min(1.0, float(value))):.2f}'
