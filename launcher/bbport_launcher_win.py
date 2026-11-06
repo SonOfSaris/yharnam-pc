@@ -238,6 +238,8 @@ TWEAKS = [
                        'Физика тел как в Dark Souls (тела отлетают дальше)'), False),
     ('tweak_first_person', ('First person: hold Lock On (R3) for a second to switch, in game',
                             'Вид от первого лица: удерживайте захват цели (R3) секунду, чтобы переключить'), False),
+    ('tweak_first_person_reduce_bob', ('First person: reduce head bob (a steadier view)',
+                                       'Вид от первого лица: меньше покачивания головы (более устойчивый вид)'), False),
 ]
 # PC enhancements (scripts/enhancements.py, after bbhost): game files made at start; off is the
 # game as it shipped. BB_PC_MIRROR / BB_PC_TWO_INVADERS / BB_PC_REBIRTH / BB_PC_LAMPS /

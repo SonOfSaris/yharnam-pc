@@ -117,7 +117,7 @@ static void check_wiring(void) {
     on_fov(&r);
     assert(r.rsi == addr(row) && !g_engaged && sweep() == 1);
 
-    /* Wanted: the core engages through the game's resolver, asked for Dummy_eye. */
+    /* Wanted: the core engages through the game's resolver, asked for Dummy_eye (58). */
     g_wanted = 1;
     on_fov(&r);
     assert(g_asked == 58 && g_engaged && g_engaged_chr == addr(chr));

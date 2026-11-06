@@ -194,6 +194,7 @@ void Load() {
         {"BB_PC_MIRROR", "pc_mirror_appearance"},   {"BB_PC_TWO_INVADERS", "pc_two_invaders"},
         {"BB_PC_REBIRTH", "pc_rebirth"},           {"BB_MOUSE_CAMERA", "mouse_camera"},
         {"BB_PC_LAMPS", "pc_enhanced_lamps"},     {"BB_FIRST_PERSON", "tweak_first_person"},
+        {"BB_FIRST_PERSON_REDUCE_BOB", "tweak_first_person_reduce_bob"},
         {"BB_FIRST_PERSON_FOV_SCALE", "first_person_fov_scale"}, {"BB_CAMERA_FOV_SCALE", "camera_fov_scale"},
         {"BB_OUTPUT_RES", "output_res"},
         {"BB_MOUSE_MENU", "mouse_menu"},

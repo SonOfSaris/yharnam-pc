@@ -51,6 +51,7 @@ inline constexpr Effect Effects[] = {
     {"tweak_easy_run", "Run with less stick tilt", false},
     {"tweak_ragdoll", "Dark Souls-style ragdoll physics", false},
     {"tweak_first_person", "First person (hold Lock On for a second to switch)", false},
+    {"tweak_first_person_reduce_bob", "First person: reduce head bob", false},
     // PC enhancements (scripts/enhancements.py, after bbhost): game files made at start. Off
     // keeps the game as it shipped. Kept last: the menu lists them in their own section.
     {"pc_mirror_appearance", "Hunter's Dream mirror: change appearance", false},

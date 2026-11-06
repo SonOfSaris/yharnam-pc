@@ -44,6 +44,14 @@ def row(key, label, kind='text', options=None, hint='', **extra):
     return {'key': key, 'label': label, 'kind': kind, 'options': choice_rows(options or []), 'hint': hint, **extra}
 
 
+# Tweak rows that need more than a title: reduced head bob only matters with first person on.
+TWEAK_EXTRAS = {
+    'tweak_first_person_reduce_bob': {
+        'hint': 'A steadier first person view: running and dodging shake it less. Can be changed in game.',
+        'enabledBy': 'tweak_first_person'},
+}
+
+
 # Field of view sliders: percents of the game's own (src/first_person.c clamps to 100-300 and 50-250).
 FIRST_PERSON_FOV_SCALE = (125, 250)
 CAMERA_FOV_SCALE = (75, 200)
@@ -142,7 +150,7 @@ FIELDS = {
     ],
     'Cheats': [
         *[row(key, title[0], 'toggle', hint=OFF_ONLINE) for key, title, _ in core.CHEATS],
-        *[row(key, title[0], 'toggle') for key, title, _ in core.TWEAKS],
+        *[row(key, title[0], 'toggle', **TWEAK_EXTRAS.get(key, {})) for key, title, _ in core.TWEAKS],
     ],
     'Online': [
         row('online_upnp', 'UPnP', 'toggle',

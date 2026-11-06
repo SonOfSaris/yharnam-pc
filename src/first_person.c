@@ -6,9 +6,9 @@
  * The core names its sites for the build it recognises (image offsets of game 1.09, checked by
  * their code, hashed as this loader has it); this file hooks them with bb_hook_mid and
  * bb_hook_call, gives the core bbport's guest memory, settings (bbport.ini: tweak_first_person,
- * first_person_fov_scale, camera_fov_scale) and pad, and calls the game's dummy-poly resolver with
- * the game's calling convention. BB_FIRST_PERSON_HOOKS=0 installs nothing; the core's BB_FP_*
- * tuning variables apply. */
+ * tweak_first_person_reduce_bob, first_person_fov_scale, camera_fov_scale) and pad, and calls
+ * the game's dummy-poly resolver with the game's calling convention. BB_FIRST_PERSON_HOOKS=0
+ * installs nothing; the core's BB_FP_* tuning variables apply. */
 #include "first_person.h"
 
 #include "bbfp.h"
